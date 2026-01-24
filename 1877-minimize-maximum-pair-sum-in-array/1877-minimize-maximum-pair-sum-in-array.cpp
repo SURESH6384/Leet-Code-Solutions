@@ -20,8 +20,10 @@ public:
             freq[num]++;
 
         int i = 0, j = maxi;
-        while (i <= maxi && freq[i] == 0) i++;
-        while (j >= 0 && freq[j] == 0) j--;
+        while (i <= maxi && freq[i] == 0)
+            i++;
+        while (j >= 0 && freq[j] == 0)
+            j--;
 
         int res = 0;
         for (int k = nums.size() / 2; k > 0; k--) {
@@ -30,10 +32,12 @@ public:
             freq[j]--;
 
             if (freq[i] == 0)
-                while (i <= maxi && freq[i] == 0) i++;
+                while (i <= maxi && freq[i] == 0)
+                    i++;
 
             if (freq[j] == 0)
-                while (j >= 0 && freq[j] == 0) j--;
+                while (j >= 0 && freq[j] == 0)
+                    j--;
         }
         return res;
     }
