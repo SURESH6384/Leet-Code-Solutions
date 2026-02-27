@@ -1,42 +1,47 @@
 class Solution {
 public:
     int minOperations(string s, int k) {
+        int n = s.length();
         int zero = 0;
-        int len = s.length();
 
-        for (int i = 0; i < len; i++)
-            zero += ~s[i] & 1;
+        for (char c : s)
+            if (c == '0') zero++;
 
-        if (!zero)
-            return 0;
+        if (zero == 0) return 0;
 
-        if (len == k)
-            return ((zero == len) << 1) - 1;
+        if (n == k) {
+            if (zero == n) return 1;
+            if (zero == 0) return 0;
+            return -1;
+        }
 
-        int base = len - k;
+        int one = n - zero;
+        int base = n - k;
 
-        int odd = max(
-            (zero + k - 1) / k,
-            (len - zero + base - 1) / base
-        );
+        int ans = INT_MAX;
 
-        odd += ~odd & 1;
+        if ((k % 2) == (zero % 2)) {
+            long long m = max(
+                (zero + k - 1) / k,
+                (one + base - 1) / base
+            );
 
-        int even = max(
-            (zero + k - 1) / k,
-            (zero + base - 1) / base
-        );
+            if (m % 2 == 0) m++;
 
-        even += even & 1;
+            ans = min(ans, (int)m);
+        }
 
-        int res = INT_MAX;
+        if (zero % 2 == 0) {
+            long long m = max(
+                (zero + k - 1) / k,
+                (zero + base - 1) / base
+            );
 
-        if ((k & 1) == (zero & 1))
-            res = min(res, odd);
+            if (m % 2 == 1) m++;
 
-        if (~zero & 1)
-            res = min(res, even);
+            ans = min(ans, (int)m);
+        }
 
-        return res == INT_MAX ? -1 : res;
+        return ans == INT_MAX ? -1 : ans;
     }
 };
